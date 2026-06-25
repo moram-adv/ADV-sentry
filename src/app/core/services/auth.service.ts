@@ -2,55 +2,55 @@ import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 export interface LoginCredentials {
-  readonly name: string;
+  readonly email: string;
   readonly password: string;
 }
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly storageKey = 'advanced_sentry_session_name';
+  private readonly storageKey = 'advanced_sentry_session_email';
   private readonly otp = '246810';
-  private readonly currentUserName = signal<string | null>(sessionStorage.getItem(this.storageKey));
-  private readonly pendingUserName = signal<string | null>(null);
+  private readonly currentUserEmail = signal<string | null>(sessionStorage.getItem(this.storageKey));
+  private readonly pendingUserEmail = signal<string | null>(null);
 
-  readonly userName = this.currentUserName.asReadonly();
-  readonly pendingName = this.pendingUserName.asReadonly();
+  readonly userEmail = this.currentUserEmail.asReadonly();
+  readonly pendingEmail = this.pendingUserEmail.asReadonly();
 
   constructor(private readonly router: Router) {}
 
   startLogin(credentials: LoginCredentials): boolean {
-    const name = credentials.name.trim();
+    const email = credentials.email.trim();
     const password = credentials.password.trim();
 
-    if (!name || password.length < 4) {
+    if (!email || password.length < 4) {
       return false;
     }
 
-    this.pendingUserName.set(name);
+    this.pendingUserEmail.set(email);
     return true;
   }
 
   verifyOtp(code: string): boolean {
-    const name = this.pendingUserName();
+    const email = this.pendingUserEmail();
 
-    if (!name || code.trim() !== this.otp) {
+    if (!email || code.trim() !== this.otp) {
       return false;
     }
 
-    sessionStorage.setItem(this.storageKey, name);
-    this.currentUserName.set(name);
-    this.pendingUserName.set(null);
+    sessionStorage.setItem(this.storageKey, email);
+    this.currentUserEmail.set(email);
+    this.pendingUserEmail.set(null);
     return true;
   }
 
   logout(): void {
     sessionStorage.removeItem(this.storageKey);
-    this.currentUserName.set(null);
-    this.pendingUserName.set(null);
+    this.currentUserEmail.set(null);
+    this.pendingUserEmail.set(null);
     void this.router.navigateByUrl('/login');
   }
 
   isAuthenticated(): boolean {
-    return this.currentUserName() !== null;
+    return this.currentUserEmail() !== null;
   }
 }

@@ -1,59 +1,113 @@
-<section class="home-page">
+<section class="home-page" aria-label="Admin Portal Home">
+
+  <!-- ── Hero banner ── -->
   <div class="hero">
-    <div>
-      <span>Controller / Dispatcher home</span>
+    <div class="hero-left">
+      <span class="hero-eyebrow">Controller / Dispatcher Home</span>
       <h1>Admin Portal</h1>
       <p>Manage inspection locations, reusable checklist templates, and location-template assignments.</p>
     </div>
 
-    <div class="quick-actions" aria-label="Home navigation">
-      <a routerLink="/locations" fragment="create-location">Create Location</a>
-      <a routerLink="/checklist-templates" fragment="create-template">Create Checklist Template</a>
+    <div class="quick-actions" aria-label="Quick actions">
+      <a routerLink="/locations" fragment="create-location" class="btn-action btn-action--gold">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        Create Location
+      </a>
+      <a routerLink="/checklist-templates" fragment="create-template" class="btn-action btn-action--ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        Create Checklist Template
+      </a>
     </div>
   </div>
 
+  <!-- ── Metrics ── -->
   <div class="metrics" aria-label="Portal metrics">
     @for (metric of metrics; track metric.label) {
-      <article [class]="metric.tone">
-        <span>{{ metric.label }}</span>
-        <strong>{{ metric.value }}</strong>
+      <article class="metric-card" [class]="'metric-card--' + metric.tone">
+        <div class="metric-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            @if (metric.tone === 'blue') {
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            } @else if (metric.tone === 'gold') {
+              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            } @else {
+              <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/>
+            }
+          </svg>
+        </div>
+        <div class="metric-body">
+          <span class="metric-label">{{ metric.label }}</span>
+          <strong class="metric-value">{{ metric.value }}</strong>
+        </div>
       </article>
     }
   </div>
 
+  <!-- ── Activity grid ── -->
   <div class="activity-grid">
+
     <section class="panel">
       <div class="panel-heading">
-        <h2>Recently Created Locations</h2>
-        <a routerLink="/locations">View Locations</a>
+        <div class="panel-heading-left">
+          <div class="panel-icon panel-icon--blue" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          </div>
+          <h2>Recently Created Locations</h2>
+        </div>
+        <a routerLink="/locations" class="view-link">
+          View all
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </a>
       </div>
 
-      @for (location of recentLocations; track location.id) {
-        <article class="activity-row">
-          <div>
-            <strong>{{ location.name }}</strong>
-            <span>{{ location.client }} - {{ location.city }}</span>
-          </div>
-          <em>{{ location.status }}</em>
-        </article>
-      }
+      <div class="activity-list">
+        @for (location of recentLocations; track location.id) {
+          <article class="activity-row">
+            <div class="activity-avatar activity-avatar--blue">
+              {{ location.name.charAt(0) }}
+            </div>
+            <div class="activity-info">
+              <strong>{{ location.name }}</strong>
+              <span>{{ location.client }} · {{ location.city }}</span>
+            </div>
+            <span class="activity-badge" [class]="'activity-badge--' + location.status.toLowerCase()">
+              {{ location.status }}
+            </span>
+          </article>
+        }
+      </div>
     </section>
 
     <section class="panel">
       <div class="panel-heading">
-        <h2>Recently Modified Templates</h2>
-        <a routerLink="/checklist-templates">View Templates</a>
+        <div class="panel-heading-left">
+          <div class="panel-icon panel-icon--gold" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+          </div>
+          <h2>Recently Modified Templates</h2>
+        </div>
+        <a routerLink="/checklist-templates" class="view-link">
+          View all
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </a>
       </div>
 
-      @for (template of recentTemplates; track template.id) {
-        <article class="activity-row">
-          <div>
-            <strong>{{ template.name }}</strong>
-            <span>{{ template.category }} - {{ template.itemCount }} items</span>
-          </div>
-          <em>{{ template.lastModified }}</em>
-        </article>
-      }
+      <div class="activity-list">
+        @for (template of recentTemplates; track template.id) {
+          <article class="activity-row">
+            <div class="activity-avatar activity-avatar--gold">
+              {{ template.name.charAt(0) }}
+            </div>
+            <div class="activity-info">
+              <strong>{{ template.name }}</strong>
+              <span>{{ template.category }} · {{ template.itemCount }} items</span>
+            </div>
+            <span class="activity-time">{{ template.lastModified }}</span>
+          </article>
+        }
+      </div>
     </section>
+
   </div>
+
 </section>

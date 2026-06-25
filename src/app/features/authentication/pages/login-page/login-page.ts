@@ -17,11 +17,12 @@ export class LoginPage {
 
   protected hasSubmitted = false;
   protected otpSubmitted = false;
-  protected isOtpStep = false;
+  isOtpStep = false;
   protected otpError = '';
 
+
   protected readonly loginForm = this.formBuilder.nonNullable.group({
-    name: ['', [Validators.required, Validators.minLength(2)]],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(4)]]
   });
 

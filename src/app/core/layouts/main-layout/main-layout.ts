@@ -12,7 +12,7 @@ import { AuthService } from '../../services/auth.service';
 export class MainLayout {
   private readonly authService = inject(AuthService);
 
-  protected readonly userName = this.authService.userName;
+  protected readonly userName = this.authService.userEmail;
 
   protected signOut(): void {
     this.authService.logout();

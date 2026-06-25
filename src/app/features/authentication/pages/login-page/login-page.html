@@ -1,67 +1,177 @@
-<section class="login-page">
-  <div class="hero-panel" aria-hidden="true">
-    <div class="hero-copy">
-      <span>Admin Portal Phase 1</span>
-      <h1>Advanced SENTRY</h1>
-      <p>Centralized location setup and reusable inspection checklist control for Controllers and Dispatchers.</p>
-    </div>
+<section class="login-page" aria-label="Advanced SENTRY Login">
 
-    <div class="guard-card">
-      <div class="guard-photo"></div>
-      <div>
-        <strong>Security operations</strong>
-        <span>Locations, contacts, checklists, and template assignments.</span>
+  <!-- ░░░ LEFT HERO PANEL ░░░ -->
+  <div class="hero-panel" aria-hidden="true">
+    <div class="hero-bg"></div>
+
+    <div class="hero-content">
+
+      <!-- Top brand -->
+      <div class="hero-brand">
+        <img src="shield-emblem.png" class="hero-brand-icon" alt="" />
+        <div>
+          <span class="hero-brand-name">Advanced SENTRY</span>
+          <span class="hero-brand-tag">Admin Portal · Phase 1</span>
+        </div>
       </div>
+
+      <!-- Centre shield -->
+      <div class="hero-shield-wrap">
+        <div class="hero-shield-glow"></div>
+        <img src="shield-emblem.png" class="hero-shield" alt="SENTRY shield emblem" />
+      </div>
+
+      <!-- Bottom copy -->
+      <div class="hero-copy">
+        <p class="hero-eyebrow">Centralized Control Platform</p>
+        <h1>Advanced<br><span class="hero-highlight">SENTRY</span></h1>
+        <p class="hero-desc">
+          Secure access for Controllers and Dispatchers. Manage locations, inspection checklists, and operational workflows from one unified portal.
+        </p>
+
+        <div class="hero-chips">
+          <span class="chip">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7l-9-5z"/></svg>
+            MFA Secured
+          </span>
+          <span class="chip">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5z"/></svg>
+            Location Mgmt
+          </span>
+          <span class="chip">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            Checklist Control
+          </span>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  @if (!isOtpStep) {
-    <form class="login-card" [formGroup]="loginForm" (ngSubmit)="submit()">
-      <div class="form-heading">
-        <span class="eyebrow">Workflow 1</span>
-        <h2>Controller login</h2>
-        <p>Validate credentials before sending the one-time passcode.</p>
+  <!-- ░░░ RIGHT FORM PANEL ░░░ -->
+  <div class="form-panel">
+    <div class="blob blob-1" aria-hidden="true"></div>
+    <div class="blob blob-2" aria-hidden="true"></div>
+
+    <!-- Brand badge at top -->
+    <div class="form-brand">
+      <img src="shield-emblem.png" class="form-brand-icon" alt="SENTRY shield" />
+      <div>
+        <span class="form-brand-name">Advanced SENTRY</span>
+        <span class="form-brand-tag">Admin Portal</span>
       </div>
+    </div>
 
-      <label>
-        <span>Name</span>
-        <input type="text" formControlName="name" autocomplete="name" placeholder="Dispatcher Lead" />
-      </label>
-
-      <label>
-        <span>Password</span>
-        <input
-          type="password"
-          formControlName="password"
-          autocomplete="current-password"
-          placeholder="Access code"
-        />
-      </label>
-
-      @if (hasSubmitted && loginForm.invalid) {
-        <p class="form-error">Enter your name and a password with at least four characters.</p>
-      }
-
-      <button type="submit">Send OTP</button>
-    </form>
-  } @else {
-    <form class="login-card" [formGroup]="otpForm" (ngSubmit)="verifyOtp()">
-      <div class="form-heading">
-        <span class="eyebrow">MFA verification</span>
-        <h2>Verify OTP</h2>
-        <p>Enter the static passcode for this phase-one prototype.</p>
+    <!-- Workflow steps -->
+    <nav class="workflow-steps" aria-label="Authentication steps">
+      <div class="step" [class.step--active]="!isOtpStep" [class.step--done]="isOtpStep">
+        <div class="step-num">{{ isOtpStep ? '✓' : '1' }}</div>
+        <span>Credentials</span>
       </div>
+      <div class="step-connector" [class.step-connector--done]="isOtpStep"></div>
+      <div class="step" [class.step--active]="isOtpStep">
+        <div class="step-num">2</div>
+        <span>Verify OTP</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <span>Home</span>
+      </div>
+    </nav>
 
-      <label>
-        <span>One-time passcode</span>
-        <input type="text" inputmode="numeric" formControlName="otp" placeholder="246810" />
-      </label>
+    <!-- ── Step 1: Login ── -->
+    @if (!isOtpStep) {
+      <form class="login-card" id="login-form" [formGroup]="loginForm" (ngSubmit)="submit()" novalidate>
 
-      @if ((otpSubmitted && otpForm.invalid) || otpError) {
-        <p class="form-error">{{ otpError || 'Enter the six-digit OTP.' }}</p>
-      }
+        <div class="card-heading">
+          <h2>Welcome back</h2>
+          <p>Sign in to your SENTRY account</p>
+        </div>
 
-      <button type="submit">Verify and open Home</button>
-    </form>
-  }
+        <label class="field" for="login-email">
+          <span class="field-label">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            Email
+          </span>
+          <div class="input-wrap">
+            <input id="login-email" type="email" formControlName="email"
+              autocomplete="email" placeholder="dispatcher@sentry.com" />
+          </div>
+        </label>
+
+        <label class="field" for="login-password">
+          <span class="field-label">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM15.1 8H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+            Password
+          </span>
+          <div class="input-wrap">
+            <input id="login-password" type="password" formControlName="password"
+              autocomplete="current-password" placeholder="Access code" />
+          </div>
+        </label>
+
+        @if (hasSubmitted && loginForm.invalid) {
+          <div class="form-error" role="alert">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            Enter a valid email and a password with at least four characters.
+          </div>
+        }
+
+        <button type="submit" id="btn-send-otp" class="btn-primary">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+          Send OTP
+        </button>
+
+        <p class="form-footnote">Protected by Advanced SENTRY MFA &bull; Workflow 1 of 8</p>
+      </form>
+    }
+
+    <!-- ── Step 2: OTP Verification ── -->
+    @else {
+      <form class="login-card login-card--otp" id="otp-form" [formGroup]="otpForm" (ngSubmit)="verifyOtp()" novalidate>
+
+        <div class="card-heading">
+          <h2>Verify your identity</h2>
+          <p>Enter the six-digit one-time passcode</p>
+        </div>
+
+        <div class="otp-info-banner">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+          Phase 1 prototype OTP: <strong>246810</strong>
+        </div>
+
+        <label class="field" for="otp-input">
+          <span class="field-label">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            One-time Passcode
+          </span>
+          <div class="input-wrap">
+            <input id="otp-input" type="text" inputmode="numeric"
+              formControlName="otp" placeholder="246810" maxlength="6" class="input-otp" />
+          </div>
+        </label>
+
+        @if ((otpSubmitted && otpForm.invalid) || otpError) {
+          <div class="form-error" role="alert">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            {{ otpError || 'Enter the six-digit OTP.' }}
+          </div>
+        }
+
+        <button type="submit" id="btn-verify-otp" class="btn-primary btn-primary--gold">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          Verify &amp; Open Home
+        </button>
+
+        <button type="button" id="btn-back" class="btn-ghost" (click)="isOtpStep = false">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+          Back to login
+        </button>
+
+        <p class="form-footnote">Protected by Advanced SENTRY MFA &bull; Workflow 1 of 8</p>
+      </form>
+    }
+  </div>
+
 </section>
