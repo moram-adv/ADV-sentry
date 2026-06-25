@@ -1,100 +1,321 @@
-<section class="location-page">
-  <div class="page-heading">
-    <span>Location Management</span>
-    <h1>Inspection locations</h1>
-    <p>Create, edit, delete, and assign checklist templates to security inspection locations.</p>
-  </div>
-
-  <section id="create-location" class="workflow-panel">
-    <div class="workflow-copy">
-      <span>Workflow 2 and 4</span>
-      <h2>Create Location</h2>
-      <p>Enter location details, search address, preview the map, add contact info, and assign a checklist.</p>
-    </div>
-
-    <div class="form-preview">
-      <div class="form-grid">
-        <label>
-          <span>Location name</span>
-          <input value="East Wing Security Post" readonly />
-        </label>
-        <label>
-          <span>Client</span>
-          <input value="Sterling Business Park" readonly />
-        </label>
-        <label class="wide">
-          <span>Address search</span>
-          <input value="Tower 3, Bellandur Main Road, Bengaluru" readonly />
-        </label>
-      </div>
-
-      <div class="map-preview" aria-label="Map preview">
-        <div class="pin"></div>
-        <strong>Map Preview</strong>
-        <span>Tower 3 security checkpoint selected</span>
-      </div>
-
-      <div class="assignment-grid">
-        <article>
-          <span>Contact information</span>
-          <strong>Priya Nair</strong>
-          <em>+91 99887 66120</em>
-        </article>
-        <article>
-          <span>Select existing checklist</span>
-          <strong>Corporate Lobby Patrol</strong>
-          <em>Template assigned on save</em>
-        </article>
-        <article>
-          <span>Create new checklist</span>
-          <strong>Night Shift Entry Audit</strong>
-          <em>Saved before location completion</em>
-        </article>
+@if (view() === 'list') {
+  <section class="locations-list">
+    <div class="list-heading">
+      <h1>Fixed Locations</h1>
+      <div class="actions">
+        <button type="button" class="primary-action" (click)="showCreate()">
+          <span>+</span>
+          Create
+        </button>
+        <button type="button">Export</button>
+        <button type="button">Upload</button>
       </div>
     </div>
-  </section>
 
-  <div class="section-heading">
-    <h2>Locations List</h2>
-    <span>Edit and delete actions are shown as static workflow states.</span>
-  </div>
-
-  <div class="locations-grid">
-    @for (location of locations; track location.id) {
-      <app-location-card [location]="location" />
+    @if (locationSaved()) {
+      <div class="success-banner">
+        Office location is added and ready for checklist configuration.
+      </div>
     }
-  </div>
 
-  <section class="management-grid">
-    <article class="operation-card">
-      <span>Workflow 5</span>
-      <h2>Edit Location</h2>
-      <p>Selected location details are loaded, updated, and saved back to the location list.</p>
-      <div class="mini-form">
-        <input value="North Gate Corporate Tower" readonly />
-        <input value="Corporate Lobby Patrol" readonly />
+    <div class="table-card">
+      <div class="table-tools">
+        <label>
+          <span>Search</span>
+          <input type="search" placeholder="Search" />
+        </label>
+        <button type="button" class="filter-button">Filter</button>
       </div>
-    </article>
 
-    <article class="operation-card danger">
-      <span>Workflow 6</span>
-      <h2>Delete Location</h2>
-      <p>Deletion requires a confirmation message before the location is removed.</p>
-      <div class="confirm-box">
-        <strong>Confirm delete?</strong>
-        <em>Harbour Logistics Yard will be removed from admin setup.</em>
-      </div>
-    </article>
+      <div class="locations-table" role="table" aria-label="Fixed locations">
+        <div class="table-row table-head" role="row">
+          <span data-label="Id">Id</span>
+          <span data-label="Location Identifier">Location Identifier</span>
+          <span data-label="Location">Location</span>
+          <span data-label="W3W">W3W</span>
+          <span data-label="Coverage">Coverage</span>
+          <span data-label="Coverage Last Checked Date">Coverage Last Checked Date</span>
+          <span data-label="Location Type">Location Type</span>
+          <span data-label="Action"></span>
+        </div>
 
-    <article class="operation-card">
-      <span>Workflow 7</span>
-      <h2>Assign Existing Template</h2>
-      <p>Reusable templates can be selected during create or edit location workflows.</p>
-      <div class="template-list">
-        @for (template of templates; track template.id) {
-          <strong>{{ template.name }}</strong>
+        @for (location of fixedLocations; track location.id) {
+          <div class="table-row" role="row">
+            <span data-label="Id">{{ location.id }}</span>
+            <strong data-label="Location Identifier">{{ location.identifier }}</strong>
+            <span data-label="Location">{{ location.coordinates }}</span>
+            <span data-label="W3W">{{ location.w3w }}</span>
+            <span class="coverage-icon" data-label="Coverage">✓</span>
+            <span data-label="Coverage Last Checked Date">{{ location.coverageDate }}</span>
+            <span data-label="Location Type">{{ location.type }}</span>
+            <button type="button" class="row-action" (click)="showCreate()" aria-label="Open location" data-label="Action">
+              →
+            </button>
+          </div>
         }
       </div>
-    </article>
+    </div>
   </section>
-</section>
+}
+
+@if (view() === 'create') {
+  <section class="location-wizard">
+    <aside class="wizard-sidebar">
+      <h1>New location</h1>
+      <p>E.g. Store Sandton South | E.g. Business</p>
+
+      <div class="step-list">
+        <button
+          type="button"
+          [class.active]="activeStep() === 'location'"
+          (click)="selectStep('location')"
+        >
+          <strong>Location</strong>
+          <span>⚠</span>
+          <em>›</em>
+        </button>
+        <button
+          type="button"
+          [class.active]="activeStep() === 'information'"
+          (click)="selectStep('information')"
+        >
+          <strong>Information</strong>
+          <em>›</em>
+        </button>
+        <button
+          type="button"
+          [class.active]="activeStep() === 'instructions'"
+          (click)="selectStep('instructions')"
+        >
+          <strong>Site instructions</strong>
+          <em>›</em>
+        </button>
+        <button
+          type="button"
+          [class.active]="activeStep() === 'contact'"
+          (click)="selectStep('contact')"
+        >
+          <strong>Point of contact</strong>
+          <em>›</em>
+        </button>
+        <button
+          type="button"
+          [class.active]="activeStep() === 'tasks'"
+          (click)="selectStep('tasks')"
+        >
+          <strong>Tasks lists</strong>
+          <em>›</em>
+        </button>
+      </div>
+
+      <label class="partner-toggle">
+        <input type="checkbox" />
+        <span>Configure monitoring partner settings</span>
+      </label>
+
+      <button type="button" class="back-button" (click)="showList()">← Back</button>
+    </aside>
+
+    <main class="wizard-panel">
+      @if (activeStep() === 'location') {
+        <section class="panel-content">
+          <h2>Configure your location</h2>
+          <p>Configure the location pin and enter the location details.</p>
+
+          <div class="tabs">
+            <button type="button" class="active">Address</button>
+            <button type="button">LAT/LNG</button>
+            <button type="button">W3W</button>
+          </div>
+
+          <label class="field wide">
+            <span>Address *</span>
+            <div class="icon-input">
+              <span>⌖</span>
+              <input placeholder="Enter street address" />
+            </div>
+          </label>
+
+          <div class="large-map">
+            <div class="map-pin"></div>
+            <strong>Mapbox preview</strong>
+          </div>
+
+          <button type="button" class="save-button" (click)="saveLocation()">Save Changes</button>
+        </section>
+      }
+
+      @if (activeStep() === 'information') {
+        <section class="panel-content">
+          <h2>Site information</h2>
+          <p>Please share relevant information that will help the responder efficiently and safely enter the site.</p>
+
+          <h3>Site details</h3>
+          <div class="form-grid">
+            <label class="field">
+              <span>Building name</span>
+              <input placeholder="Enter a building name" />
+            </label>
+            <label class="field">
+              <span>Entrance note</span>
+              <input placeholder="E.g. Enter through side gate" />
+            </label>
+          </div>
+
+          <button type="button" class="link-action">+ Add photos</button>
+
+          <h3>Access codes</h3>
+          <p>Specify the areas where responders will need access codes to ensure secure entry.</p>
+          <button type="button" class="link-action">+ Add another code</button>
+
+          <h3>Site risks</h3>
+          <button type="button" class="save-button">Save Changes</button>
+        </section>
+      }
+
+      @if (activeStep() === 'instructions') {
+        <section class="panel-content">
+          <h2>Site instructions</h2>
+          <p>Please input your site instructions here</p>
+
+          <div class="editor">
+            <div class="editor-toolbar">
+              <button type="button">Paragraph</button>
+              <button type="button">B</button>
+              <button type="button">I</button>
+              <button type="button">• List</button>
+              <button type="button">1. List</button>
+            </div>
+            <textarea aria-label="Site instructions"></textarea>
+          </div>
+
+          <button type="button" class="save-button">Save Changes</button>
+        </section>
+      }
+
+      @if (activeStep() === 'contact') {
+        <section class="panel-content">
+          <h2>Point of contact</h2>
+
+          <div class="form-grid">
+            <label class="field">
+              <span>First Name *</span>
+              <input />
+            </label>
+            <label class="field">
+              <span>Last Name</span>
+              <input />
+            </label>
+            <label class="field phone-field">
+              <span>Mobile</span>
+              <div>
+                <button type="button">+27 ˅</button>
+                <input />
+              </div>
+            </label>
+            <label class="field">
+              <span>Email</span>
+              <input />
+            </label>
+          </div>
+
+          <label class="check-row">
+            <input type="checkbox" />
+            <span>
+              <strong>Primary contact</strong>
+              The primary point of contact will receive a web dispatch tracking link
+            </span>
+          </label>
+          <label class="check-row">
+            <input type="checkbox" />
+            <span>Receive incident report</span>
+          </label>
+
+          <button type="button" class="link-action">+ Add point of contact</button>
+          <button type="button" class="save-button">Save Changes</button>
+        </section>
+      }
+
+      @if (activeStep() === 'tasks') {
+        <section class="panel-content">
+          <h2>Linked task lists</h2>
+          <p>View and configure task lists for each response type linked to this location.</p>
+
+          <article class="linked-task-card">
+            <div class="task-card-head">
+              <div>
+                <span class="shield">▣</span>
+                <strong>Security</strong>
+              </div>
+              <button type="button" class="primary-action" (click)="showTaskLists()">
+                Configure task lists →
+              </button>
+            </div>
+            <div class="task-list-row">
+              <span>✓</span>
+              <strong>Public Parks</strong>
+              <em>Default location list</em>
+            </div>
+          </article>
+
+          <button type="button" class="save-button">Save Changes</button>
+        </section>
+      }
+    </main>
+  </section>
+}
+
+@if (view() === 'taskLists') {
+  <section class="checklist-config">
+    <aside class="wizard-sidebar">
+      <h1>New location</h1>
+      <p>E.g. Store Sandton South | E.g. Business</p>
+
+      <div class="step-list compact">
+        <button type="button" (click)="showCreate()"><strong>Location</strong><em>›</em></button>
+        <button type="button" (click)="showCreate()"><strong>Information</strong><em>›</em></button>
+        <button type="button" (click)="showCreate()"><strong>Site instructions</strong><em>›</em></button>
+        <button type="button" (click)="showCreate()"><strong>Point of contact</strong><em>›</em></button>
+        <button type="button" class="active"><strong>Tasks lists</strong><em>›</em></button>
+      </div>
+
+      <button type="button" class="back-button" (click)="showCreate()">← Back to location</button>
+    </aside>
+
+    <main class="wizard-panel">
+      <section class="panel-content">
+        <h2>Configure task list</h2>
+        <p>Design the security checklist that responders will complete at this location.</p>
+
+        <div class="checklist-layout">
+          <article class="checklist-summary">
+            <span class="shield">▣</span>
+            <h3>Security - Public Parks</h3>
+            <p>Default task list linked to the new office location.</p>
+            <button type="button" class="primary-action" (click)="saveLocation()">Save checklist and add location</button>
+          </article>
+
+          <div class="task-builder">
+            <div class="builder-row">
+              <strong>1. Verify guard post visibility</strong>
+              <span>Required</span>
+            </div>
+            <div class="builder-row">
+              <strong>2. Upload entrance photo</strong>
+              <span>Photo required</span>
+            </div>
+            <div class="builder-row">
+              <strong>3. Confirm patrol access code</strong>
+              <span>Access code</span>
+            </div>
+            <div class="builder-row">
+              <strong>4. Escalate open perimeter risk</strong>
+              <span>Escalate on fail</span>
+            </div>
+            <button type="button" class="link-action">+ Add checklist item</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </section>
+}
