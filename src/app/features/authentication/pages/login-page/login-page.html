@@ -62,27 +62,9 @@
       </div>
     </div>
 
-    <!-- Workflow steps -->
-    <nav class="workflow-steps" aria-label="Authentication steps">
-      <div class="step" [class.step--active]="!isOtpStep" [class.step--done]="isOtpStep">
-        <div class="step-num">{{ isOtpStep ? '✓' : '1' }}</div>
-        <span>Credentials</span>
-      </div>
-      <div class="step-connector" [class.step-connector--done]="isOtpStep"></div>
-      <div class="step" [class.step--active]="isOtpStep">
-        <div class="step-num">2</div>
-        <span>Verify OTP</span>
-      </div>
-      <div class="step-connector"></div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <span>Home</span>
-      </div>
-    </nav>
 
-    <!-- ── Step 1: Login ── -->
-    @if (!isOtpStep) {
-      <form class="login-card" id="login-form" [formGroup]="loginForm" (ngSubmit)="submit()" novalidate>
+
+    <form class="login-card" id="login-form" [formGroup]="loginForm" (ngSubmit)="submit()" novalidate>
 
         <div class="card-heading">
           <h2>Welcome back</h2>
@@ -118,60 +100,12 @@
           </div>
         }
 
-        <button type="submit" id="btn-send-otp" class="btn-primary">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-          Send OTP
+        <button type="submit" id="btn-sign-in" class="btn-primary">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M11 7L9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5z"/><path d="M20 3h-9v2h9v14h-9v2h9c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+          Sign In
         </button>
 
-        <p class="form-footnote">Protected by Advanced SENTRY MFA &bull; Workflow 1 of 8</p>
-      </form>
-    }
-
-    <!-- ── Step 2: OTP Verification ── -->
-    @else {
-      <form class="login-card login-card--otp" id="otp-form" [formGroup]="otpForm" (ngSubmit)="verifyOtp()" novalidate>
-
-        <div class="card-heading">
-          <h2>Verify your identity</h2>
-          <p>Enter the six-digit one-time passcode</p>
-        </div>
-
-        <div class="otp-info-banner">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-          Phase 1 prototype OTP: <strong>246810</strong>
-        </div>
-
-        <label class="field" for="otp-input">
-          <span class="field-label">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-            One-time Passcode
-          </span>
-          <div class="input-wrap">
-            <input id="otp-input" type="text" inputmode="numeric"
-              formControlName="otp" placeholder="246810" maxlength="6" class="input-otp" />
-          </div>
-        </label>
-
-        @if ((otpSubmitted && otpForm.invalid) || otpError) {
-          <div class="form-error" role="alert">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-            {{ otpError || 'Enter the six-digit OTP.' }}
-          </div>
-        }
-
-        <button type="submit" id="btn-verify-otp" class="btn-primary btn-primary--gold">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-          Verify &amp; Open Home
-        </button>
-
-        <button type="button" id="btn-back" class="btn-ghost" (click)="isOtpStep = false">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-          Back to login
-        </button>
-
-        <p class="form-footnote">Protected by Advanced SENTRY MFA &bull; Workflow 1 of 8</p>
-      </form>
-    }
+    </form>
   </div>
 
 </section>

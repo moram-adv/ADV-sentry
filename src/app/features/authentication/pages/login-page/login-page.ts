@@ -16,18 +16,10 @@ export class LoginPage {
   private readonly router = inject(Router);
 
   protected hasSubmitted = false;
-  protected otpSubmitted = false;
-  isOtpStep = false;
-  protected otpError = '';
-
 
   protected readonly loginForm = this.formBuilder.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(4)]]
-  });
-
-  protected readonly otpForm = this.formBuilder.nonNullable.group({
-    otp: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]]
   });
 
   protected submit(): void {
@@ -38,27 +30,7 @@ export class LoginPage {
       return;
     }
 
-    const canSendOtp = this.authService.startLogin(this.loginForm.getRawValue());
-
-    if (canSendOtp) {
-      this.isOtpStep = true;
-      this.otpError = '';
-    }
-  }
-
-  protected verifyOtp(): void {
-    this.otpSubmitted = true;
-
-    if (this.otpForm.invalid) {
-      this.otpForm.markAllAsTouched();
-      return;
-    }
-
-    if (!this.authService.verifyOtp(this.otpForm.controls.otp.value)) {
-      this.otpError = 'Enter the valid dispatcher OTP: 246810.';
-      return;
-    }
-
+    this.authService.startLogin(this.loginForm.getRawValue());
     void this.router.navigateByUrl('/home');
   }
 }
