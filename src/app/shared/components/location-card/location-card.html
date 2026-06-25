@@ -1,0 +1,27 @@
+<article class="location-card">
+  <div class="status-strip">
+    <strong>{{ location().status }}</strong>
+    <span>#{{ location().id }}</span>
+  </div>
+
+  <div class="content">
+    <div>
+      <span class="eyebrow">{{ location().client }}</span>
+      <h2>{{ location().name }}</h2>
+      <p>{{ location().address }}, {{ location().city }}</p>
+    </div>
+
+    <div class="details">
+      <div>
+        <span>Primary contact</span>
+        <strong>{{ location().contactName }}</strong>
+        <em>{{ location().contactPhone }}</em>
+      </div>
+      <div>
+        <span>Assigned checklist</span>
+        <strong>{{ location().assignedTemplate }}</strong>
+        <em>{{ location().lastModified }}</em>
+      </div>
+    </div>
+  </div>
+</article>

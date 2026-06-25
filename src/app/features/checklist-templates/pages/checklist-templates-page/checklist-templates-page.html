@@ -1,0 +1,55 @@
+<section class="templates-page">
+  <div class="page-heading">
+    <span>Checklist Template Management</span>
+    <h1>Reusable inspection templates</h1>
+    <p>Create checklist items, configure rules, and reuse templates while setting up locations.</p>
+  </div>
+
+  <section id="create-template" class="create-panel">
+    <div>
+      <span>Create Template Workflow</span>
+      <h2>New Site Opening Inspection</h2>
+      <p>Add items, configure rules, then save the template for location assignment.</p>
+    </div>
+
+    <div class="builder">
+      <label>
+        <span>Template name</span>
+        <input value="New Site Opening Inspection" readonly />
+      </label>
+      <label>
+        <span>Category</span>
+        <input value="Opening Readiness" readonly />
+      </label>
+      <div class="rule-list">
+        <strong>Checklist items</strong>
+        <span>Verify emergency exits - Required</span>
+        <span>Capture guard post photo - Photo required</span>
+        <span>Escalate missing CCTV coverage - Escalate on fail</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="template-grid">
+    @for (template of templates; track template.id) {
+      <article class="template-card">
+        <div class="template-heading">
+          <div>
+            <span>{{ template.category }}</span>
+            <h2>{{ template.name }}</h2>
+          </div>
+          <strong>{{ template.itemCount }} items</strong>
+        </div>
+
+        <div class="items">
+          @for (item of template.items; track item.label) {
+            <div>
+              <span>{{ item.label }}</span>
+              <em>{{ item.rule }}</em>
+            </div>
+          }
+        </div>
+      </article>
+    }
+  </div>
+</section>

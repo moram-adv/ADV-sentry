@@ -1,0 +1,100 @@
+<section class="location-page">
+  <div class="page-heading">
+    <span>Location Management</span>
+    <h1>Inspection locations</h1>
+    <p>Create, edit, delete, and assign checklist templates to security inspection locations.</p>
+  </div>
+
+  <section id="create-location" class="workflow-panel">
+    <div class="workflow-copy">
+      <span>Workflow 2 and 4</span>
+      <h2>Create Location</h2>
+      <p>Enter location details, search address, preview the map, add contact info, and assign a checklist.</p>
+    </div>
+
+    <div class="form-preview">
+      <div class="form-grid">
+        <label>
+          <span>Location name</span>
+          <input value="East Wing Security Post" readonly />
+        </label>
+        <label>
+          <span>Client</span>
+          <input value="Sterling Business Park" readonly />
+        </label>
+        <label class="wide">
+          <span>Address search</span>
+          <input value="Tower 3, Bellandur Main Road, Bengaluru" readonly />
+        </label>
+      </div>
+
+      <div class="map-preview" aria-label="Map preview">
+        <div class="pin"></div>
+        <strong>Map Preview</strong>
+        <span>Tower 3 security checkpoint selected</span>
+      </div>
+
+      <div class="assignment-grid">
+        <article>
+          <span>Contact information</span>
+          <strong>Priya Nair</strong>
+          <em>+91 99887 66120</em>
+        </article>
+        <article>
+          <span>Select existing checklist</span>
+          <strong>Corporate Lobby Patrol</strong>
+          <em>Template assigned on save</em>
+        </article>
+        <article>
+          <span>Create new checklist</span>
+          <strong>Night Shift Entry Audit</strong>
+          <em>Saved before location completion</em>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-heading">
+    <h2>Locations List</h2>
+    <span>Edit and delete actions are shown as static workflow states.</span>
+  </div>
+
+  <div class="locations-grid">
+    @for (location of locations; track location.id) {
+      <app-location-card [location]="location" />
+    }
+  </div>
+
+  <section class="management-grid">
+    <article class="operation-card">
+      <span>Workflow 5</span>
+      <h2>Edit Location</h2>
+      <p>Selected location details are loaded, updated, and saved back to the location list.</p>
+      <div class="mini-form">
+        <input value="North Gate Corporate Tower" readonly />
+        <input value="Corporate Lobby Patrol" readonly />
+      </div>
+    </article>
+
+    <article class="operation-card danger">
+      <span>Workflow 6</span>
+      <h2>Delete Location</h2>
+      <p>Deletion requires a confirmation message before the location is removed.</p>
+      <div class="confirm-box">
+        <strong>Confirm delete?</strong>
+        <em>Harbour Logistics Yard will be removed from admin setup.</em>
+      </div>
+    </article>
+
+    <article class="operation-card">
+      <span>Workflow 7</span>
+      <h2>Assign Existing Template</h2>
+      <p>Reusable templates can be selected during create or edit location workflows.</p>
+      <div class="template-list">
+        @for (template of templates; track template.id) {
+          <strong>{{ template.name }}</strong>
+        }
+      </div>
+    </article>
+  </section>
+</section>

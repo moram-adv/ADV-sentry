@@ -1,0 +1,24 @@
+<div class="app-shell">
+  <nav class="top-nav" aria-label="Primary navigation">
+    <a class="brand" routerLink="/home" aria-label="Advanced SENTRY home">
+      <span class="brand-mark">AS</span>
+      <span>Advanced SENTRY</span>
+    </a>
+
+    <div class="nav-menu">
+      <a routerLink="/home" routerLinkActive="active">Home</a>
+      <a routerLink="/locations" routerLinkActive="active">Locations</a>
+      <a routerLink="/checklist-templates" routerLinkActive="active">Checklist Templates</a>
+    </div>
+
+    <div class="account">
+      <small>Controller / Dispatcher</small>
+      <span>{{ userName() }}</span>
+      <button type="button" (click)="signOut()">Logout</button>
+    </div>
+  </nav>
+
+  <main>
+    <router-outlet />
+  </main>
+</div>

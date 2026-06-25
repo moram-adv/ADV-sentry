@@ -1,0 +1,59 @@
+<section class="home-page">
+  <div class="hero">
+    <div>
+      <span>Controller / Dispatcher home</span>
+      <h1>Admin Portal</h1>
+      <p>Manage inspection locations, reusable checklist templates, and location-template assignments.</p>
+    </div>
+
+    <div class="quick-actions" aria-label="Home navigation">
+      <a routerLink="/locations" fragment="create-location">Create Location</a>
+      <a routerLink="/checklist-templates" fragment="create-template">Create Checklist Template</a>
+    </div>
+  </div>
+
+  <div class="metrics" aria-label="Portal metrics">
+    @for (metric of metrics; track metric.label) {
+      <article [class]="metric.tone">
+        <span>{{ metric.label }}</span>
+        <strong>{{ metric.value }}</strong>
+      </article>
+    }
+  </div>
+
+  <div class="activity-grid">
+    <section class="panel">
+      <div class="panel-heading">
+        <h2>Recently Created Locations</h2>
+        <a routerLink="/locations">View Locations</a>
+      </div>
+
+      @for (location of recentLocations; track location.id) {
+        <article class="activity-row">
+          <div>
+            <strong>{{ location.name }}</strong>
+            <span>{{ location.client }} - {{ location.city }}</span>
+          </div>
+          <em>{{ location.status }}</em>
+        </article>
+      }
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <h2>Recently Modified Templates</h2>
+        <a routerLink="/checklist-templates">View Templates</a>
+      </div>
+
+      @for (template of recentTemplates; track template.id) {
+        <article class="activity-row">
+          <div>
+            <strong>{{ template.name }}</strong>
+            <span>{{ template.category }} - {{ template.itemCount }} items</span>
+          </div>
+          <em>{{ template.lastModified }}</em>
+        </article>
+      }
+    </section>
+  </div>
+</section>

@@ -1,0 +1,21 @@
+:root {
+  --sentry-ink: #0c1f2e;
+  --sentry-muted: #607387;
+  --sentry-line: #d9e3ea;
+  --sentry-blue: #0f6cbd;
+  --sentry-cyan: #00a6d1;
+  --sentry-gold: #f6bd16;
+  --sentry-red: #d92d20;
+  --sentry-green: #079455;
+  --sentry-surface: #ffffff;
+  --sentry-soft: #f4f8fb;
+
+  --aura-ink: var(--sentry-ink);
+  --aura-muted: var(--sentry-muted);
+  --aura-teal: var(--sentry-cyan);
+  --aura-blue: var(--sentry-blue);
+  --aura-sun: var(--sentry-gold);
+  --aura-coral: #ff7a45;
+  --aura-rose: var(--sentry-red);
+  --aura-surface: var(--sentry-surface);
+}

@@ -1,0 +1,67 @@
+<section class="login-page">
+  <div class="hero-panel" aria-hidden="true">
+    <div class="hero-copy">
+      <span>Admin Portal Phase 1</span>
+      <h1>Advanced SENTRY</h1>
+      <p>Centralized location setup and reusable inspection checklist control for Controllers and Dispatchers.</p>
+    </div>
+
+    <div class="guard-card">
+      <div class="guard-photo"></div>
+      <div>
+        <strong>Security operations</strong>
+        <span>Locations, contacts, checklists, and template assignments.</span>
+      </div>
+    </div>
+  </div>
+
+  @if (!isOtpStep) {
+    <form class="login-card" [formGroup]="loginForm" (ngSubmit)="submit()">
+      <div class="form-heading">
+        <span class="eyebrow">Workflow 1</span>
+        <h2>Controller login</h2>
+        <p>Validate credentials before sending the one-time passcode.</p>
+      </div>
+
+      <label>
+        <span>Name</span>
+        <input type="text" formControlName="name" autocomplete="name" placeholder="Dispatcher Lead" />
+      </label>
+
+      <label>
+        <span>Password</span>
+        <input
+          type="password"
+          formControlName="password"
+          autocomplete="current-password"
+          placeholder="Access code"
+        />
+      </label>
+
+      @if (hasSubmitted && loginForm.invalid) {
+        <p class="form-error">Enter your name and a password with at least four characters.</p>
+      }
+
+      <button type="submit">Send OTP</button>
+    </form>
+  } @else {
+    <form class="login-card" [formGroup]="otpForm" (ngSubmit)="verifyOtp()">
+      <div class="form-heading">
+        <span class="eyebrow">MFA verification</span>
+        <h2>Verify OTP</h2>
+        <p>Enter the static passcode for this phase-one prototype.</p>
+      </div>
+
+      <label>
+        <span>One-time passcode</span>
+        <input type="text" inputmode="numeric" formControlName="otp" placeholder="246810" />
+      </label>
+
+      @if ((otpSubmitted && otpForm.invalid) || otpError) {
+        <p class="form-error">{{ otpError || 'Enter the six-digit OTP.' }}</p>
+      }
+
+      <button type="submit">Verify and open Home</button>
+    </form>
+  }
+</section>

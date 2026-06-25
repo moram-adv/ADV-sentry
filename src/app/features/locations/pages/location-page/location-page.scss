@@ -1,0 +1,209 @@
+.location-page {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 78rem;
+  margin: 0 auto;
+}
+
+.page-heading,
+.section-heading {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.page-heading span,
+.workflow-copy span,
+.operation-card > span {
+  color: var(--sentry-blue);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.page-heading h1 {
+  margin: 0;
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  line-height: 1;
+}
+
+.page-heading p,
+.workflow-copy p,
+.section-heading span,
+.operation-card p {
+  max-width: 42rem;
+  margin: 0;
+  color: var(--sentry-muted);
+  line-height: 1.55;
+}
+
+.workflow-panel,
+.operation-card {
+  border: 1px solid var(--sentry-line);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 20px 55px rgba(12, 31, 46, 0.08);
+}
+
+.workflow-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 0.7fr) minmax(22rem, 1.3fr);
+  gap: 1.25rem;
+  padding: 1.25rem;
+}
+
+.workflow-copy h2,
+.section-heading h2,
+.operation-card h2 {
+  margin: 0.35rem 0 0.55rem;
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  line-height: 1.05;
+}
+
+.form-preview,
+.form-grid,
+.assignment-grid,
+.locations-grid,
+.management-grid,
+.mini-form,
+.template-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.form-preview {
+  padding: 1rem;
+  border-radius: 0.65rem;
+  background: var(--sentry-soft);
+}
+
+.form-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.wide {
+  grid-column: 1 / -1;
+}
+
+label {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--sentry-muted);
+  font-weight: 800;
+}
+
+input {
+  min-height: 2.8rem;
+  border: 1px solid var(--sentry-line);
+  border-radius: 0.55rem;
+  padding: 0 0.9rem;
+  color: var(--sentry-ink);
+  background: #ffffff;
+}
+
+.map-preview {
+  position: relative;
+  display: grid;
+  align-content: center;
+  min-height: 12rem;
+  overflow: hidden;
+  padding: 1rem;
+  border-radius: 0.65rem;
+  background:
+    linear-gradient(135deg, rgba(15, 108, 189, 0.14), rgba(246, 189, 22, 0.14)),
+    repeating-linear-gradient(0deg, transparent 0 2.2rem, rgba(12, 31, 46, 0.08) 2.2rem 2.28rem),
+    repeating-linear-gradient(90deg, transparent 0 2.2rem, rgba(12, 31, 46, 0.08) 2.2rem 2.28rem);
+}
+
+.pin {
+  position: absolute;
+  top: 42%;
+  left: 55%;
+  width: 1.35rem;
+  aspect-ratio: 1;
+  border: 0.28rem solid #ffffff;
+  border-radius: 50% 50% 50% 0;
+  background: var(--sentry-red);
+  box-shadow: 0 10px 22px rgba(217, 45, 32, 0.28);
+  transform: rotate(-45deg);
+}
+
+.map-preview strong,
+.map-preview span {
+  position: relative;
+}
+
+.assignment-grid,
+.management-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.assignment-grid article,
+.confirm-box,
+.template-list,
+.mini-form {
+  padding: 1rem;
+  border-radius: 0.65rem;
+  background: #ffffff;
+}
+
+.assignment-grid span,
+.assignment-grid strong,
+.assignment-grid em,
+.confirm-box strong,
+.confirm-box em,
+.template-list strong {
+  display: block;
+}
+
+.assignment-grid span {
+  color: var(--sentry-blue);
+  font-weight: 900;
+}
+
+.assignment-grid strong {
+  margin-top: 0.35rem;
+}
+
+.assignment-grid em,
+.confirm-box em {
+  margin-top: 0.25rem;
+  color: var(--sentry-muted);
+  font-style: normal;
+}
+
+.locations-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.operation-card {
+  padding: 1rem;
+}
+
+.danger {
+  border-color: rgba(217, 45, 32, 0.28);
+}
+
+.confirm-box {
+  border: 1px solid rgba(217, 45, 32, 0.24);
+  background: #fff5f4;
+}
+
+.template-list strong {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--sentry-line);
+}
+
+.template-list strong:last-child {
+  border-bottom: 0;
+}
+
+@media (max-width: 960px) {
+  .workflow-panel,
+  .form-grid,
+  .assignment-grid,
+  .locations-grid,
+  .management-grid {
+    grid-template-columns: 1fr;
+  }
+}

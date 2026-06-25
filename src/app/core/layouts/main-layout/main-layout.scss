@@ -1,0 +1,116 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.app-shell {
+  min-height: 100vh;
+  color: var(--sentry-ink);
+  background:
+    radial-gradient(circle at 12% 8%, rgba(0, 166, 209, 0.12), transparent 28rem),
+    radial-gradient(circle at 90% 8%, rgba(246, 189, 22, 0.15), transparent 24rem),
+    linear-gradient(180deg, #f7fbff 0%, #eef4f8 100%);
+}
+
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1.5rem;
+  min-height: 4.75rem;
+  padding: 0 4vw;
+  border-bottom: 1px solid var(--sentry-line);
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 18px 45px rgba(12, 52, 70, 0.08);
+}
+
+.brand,
+.nav-menu,
+.account {
+  display: flex;
+  align-items: center;
+}
+
+.brand {
+  gap: 0.65rem;
+  color: var(--sentry-ink);
+  font-weight: 800;
+  font-size: 1.15rem;
+  text-decoration: none;
+}
+
+.brand-mark {
+  display: grid;
+  width: 2.65rem;
+  height: 2.45rem;
+  place-items: center;
+  border-radius: 50%;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--sentry-blue), #0b2f4a);
+  box-shadow: 0 12px 24px rgba(15, 108, 189, 0.2);
+  font-size: 0.82rem;
+}
+
+.nav-menu {
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+.nav-menu a,
+.account button {
+  min-height: 2.5rem;
+  padding: 0.65rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  color: var(--sentry-muted);
+  background: transparent;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.nav-menu a.active,
+.nav-menu a:hover,
+.account button:hover {
+  color: var(--sentry-ink);
+  background: rgba(15, 108, 189, 0.1);
+}
+
+.account {
+  justify-content: flex-end;
+  gap: 0.7rem;
+  color: var(--sentry-muted);
+  font-weight: 700;
+}
+
+.account small {
+  color: var(--sentry-blue);
+  font-weight: 900;
+}
+
+main {
+  padding: 2.25rem 4vw 3rem;
+}
+
+@media (max-width: 760px) {
+  .top-nav {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  .nav-menu,
+  .account {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  main {
+    padding: 1rem;
+  }
+}
